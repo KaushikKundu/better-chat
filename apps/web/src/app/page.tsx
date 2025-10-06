@@ -1,46 +1,75 @@
-"use client";
-import { useQuery } from "@tanstack/react-query";
-import { trpc } from "@/utils/trpc";
+"use client"
 
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarInset,
+  SidebarTrigger,
+  SidebarRail,
+} from "@/components/ui/sidebar"
+import { InboxSidebar } from "@/components/chat/sidebar-inbox"
+import { ChatPanel } from "@/components/chat/chat-panel"
+import { DetailsPanel } from "@/components/chat/details-panel"
+import { ModeToggle } from "@/components/mode-toggle"
 
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
+export default function Page() {
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
-export default function Home() {
-	const healthCheck = useQuery(trpc.healthCheck.queryOptions());
+  return (
+    <SidebarProvider>
+      <Sidebar collapsible="offcanvas" variant="inset">
+        <SidebarHeader>
+          <div className="flex items-center gap-2 px-2 py-1.5">
+            {/* <img src="/chat-logo.png" alt="Chat app logo" className="h-5 w-5" /> */}
+            <span className="text-sm font-medium">Chat</span>
+          </div>
+        </SidebarHeader>
 
-	return (
-		<div className="container mx-auto max-w-3xl px-4 py-2">
-			<pre className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</pre>
-			<div className="grid gap-6">
-				<section className="rounded-lg border p-4">
-					<h2 className="mb-2 font-medium">API Status</h2>
-					<div className="flex items-center gap-2">
-						<div
-							className={`h-2 w-2 rounded-full ${healthCheck.data ? "bg-green-500" : "bg-red-500"}`}
-						/>
-						<span className="text-sm text-muted-foreground">
-							{healthCheck.isLoading
-								? "Checking..."
-								: healthCheck.data
-									? "Connected"
-									: "Disconnected"}
-						</span>
-					</div>
-				</section>
-			</div>
-		</div>
-	);
+        <SidebarContent>
+          <InboxSidebar selectedId={selectedId} onSelect={setSelectedId} />
+        </SidebarContent>
+
+        <SidebarFooter>
+          <div className="flex items-center justify-between rounded-md px-2 py-1.5">
+            <div className="flex items-center gap-2">
+              <img src="/ai-avatar.png" alt="Your avatar" className="h-6 w-6 rounded-full object-cover" />
+              <span className="text-xs text-muted-foreground">You</span>
+            </div>
+            <Button size="sm" variant="outline" className="h-7 px-2 text-xs bg-transparent">
+              Set status
+            </Button>
+          </div>
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+
+      <SidebarInset>
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4 justify-between">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger />
+            <h1 className="text-pretty text-base font-semibold md:text-lg">Inbox</h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+          </div>
+        </header>
+
+        <div className="flex-1 overflow-hidden">
+          <div className="h-full w-full flex">
+            <section className="flex-1 min-w-0">
+              <ChatPanel conversationId={selectedId} />
+            </section>
+            <aside className="hidden lg:block lg:w-80 xl:w-96 border-l border-border bg-background/60">
+              <DetailsPanel conversationId={selectedId} />
+            </aside>
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }
