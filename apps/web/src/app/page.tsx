@@ -1,13 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import {
   SidebarProvider,
   Sidebar,
   SidebarHeader,
   SidebarContent,
-  SidebarFooter,
   SidebarInset,
   SidebarTrigger,
   SidebarRail,
@@ -24,7 +22,7 @@ export default function Page() {
     <SidebarProvider>
       <Sidebar collapsible="offcanvas" variant="inset">
         <SidebarHeader>
-          <div className="flex items-center gap-2 px-2 py-1.5">
+          <div className="flex items-center gap-2 px-2 py-1">
             {/* <img src="/chat-logo.png" alt="Chat app logo" className="h-5 w-5" /> */}
             <span className="text-sm font-medium">Chat</span>
           </div>
@@ -33,28 +31,15 @@ export default function Page() {
         <SidebarContent>
           <InboxSidebar selectedId={selectedId} onSelect={setSelectedId} />
         </SidebarContent>
-
-        <SidebarFooter>
-          <div className="flex items-center justify-between rounded-md px-2 py-1.5">
-            <div className="flex items-center gap-2">
-              <img src="/ai-avatar.png" alt="Your avatar" className="h-6 w-6 rounded-full object-cover" />
-              <span className="text-xs text-muted-foreground">You</span>
-            </div>
-            <Button size="sm" variant="outline" className="h-7 px-2 text-xs bg-transparent">
-              Set status
-            </Button>
-          </div>
-        </SidebarFooter>
         <SidebarRail />
       </Sidebar>
 
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4 justify-between">
-          <div className="flex items-center gap-2">
-            <SidebarTrigger />
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger />
+          <div className="flex justify-between w-full items-center">
+
             <h1 className="text-pretty text-base font-semibold md:text-lg">Inbox</h1>
-          </div>
-          <div className="flex items-center gap-2">
             <ModeToggle />
           </div>
         </header>

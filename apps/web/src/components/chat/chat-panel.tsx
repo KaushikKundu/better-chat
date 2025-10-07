@@ -4,7 +4,6 @@ import useSWR from "swr"
 import { useEffect, useMemo, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type Message = {
   id: string
@@ -36,20 +35,6 @@ export function ChatPanel({ conversationId }: { conversationId: string | null })
 
   return (
     <div className="flex h-full w-full flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-border px-4 py-3">
-        <h2 className="text-sm font-semibold text-pretty truncate">{title}</h2>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            Search
-          </Button>
-          <Button variant="ghost" size="sm">
-            More
-          </Button>
-        </div>
-      </div>
-
-      {/* Messages */}
       <div className="flex-1 min-h-0 overflow-y-auto px-4 py-4">
         {!conversationId && (
           <div className="h-full w-full grid place-items-center">
@@ -67,7 +52,6 @@ export function ChatPanel({ conversationId }: { conversationId: string | null })
         )}
       </div>
 
-      {/* Composer */}
       <div className="border-t border-border p-3">
         <form
           onSubmit={(e) => {
@@ -91,26 +75,9 @@ export function ChatPanel({ conversationId }: { conversationId: string | null })
 
 function MessageBubble({ m }: { m: Message }) {
   const isYou = m.author.isYou
-  const initials =
-    m.author.name
-      .split(" ")
-      .map((p) => p[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase() || "?"
 
   return (
     <div className="flex items-start gap-3">
-      {!isYou && (
-        <Avatar className="h-8 w-8 mt-0.5">
-          {m.author.avatar ? (
-            <AvatarImage src={m.author.avatar || "/placeholder.svg"} alt={`${m.author.name} avatar`} />
-          ) : (
-            <AvatarImage src="/diverse-avatars.png" alt={`${m.author.name} avatar`} />
-          )}
-          <AvatarFallback aria-hidden="true">{initials}</AvatarFallback>
-        </Avatar>
-      )}
       <div
         className={`max-w-[75%] rounded-md px-3 py-2 ${isYou ? "ml-auto bg-primary text-primary-foreground" : "bg-muted"}`}
       >
@@ -120,12 +87,7 @@ function MessageBubble({ m }: { m: Message }) {
           {new Date(m.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </p>
       </div>
-      {isYou && (
-        <Avatar className="h-8 w-8 mt-0.5">
-          <AvatarImage src="/ai-avatar.png" alt="Your avatar" />
-          <AvatarFallback aria-hidden="true">You</AvatarFallback>
-        </Avatar>
-      )}
+    
     </div>
   )
 }

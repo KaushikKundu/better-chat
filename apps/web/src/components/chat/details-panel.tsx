@@ -55,20 +55,6 @@ export function DetailsPanel({ conversationId }: { conversationId: string | null
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
-        <section>
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Actions</h3>
-          <div className="flex flex-wrap gap-2">
-            <Button size="sm" variant="outline">
-              Pin
-            </Button>
-            <Button size="sm" variant="outline">
-              Mute
-            </Button>
-            <Button size="sm" variant="outline">
-              Leave
-            </Button>
-          </div>
-        </section>
 
         <section>
           <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Members</h3>

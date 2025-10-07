@@ -100,13 +100,7 @@ function ConversationRow({
   active: boolean
   onSelect: () => void
 }) {
-  const initials =
-    c.name
-      .split(" ")
-      .map((p) => p[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase() || "?"
+
 
   return (
     <button
@@ -124,35 +118,20 @@ function ConversationRow({
           active ? "bg-accent text-accent-foreground" : "hover:bg-muted/70",
         )}
       >
-        <Avatar className="h-9 w-9">
-          {c.avatar ? (
-            <AvatarImage src={c.avatar || "/placeholder.svg"} alt={`${c.name} avatar`} />
-          ) : (
-            <AvatarImage src="/diverse-avatars.png" alt={`${c.name} avatar`} />
-          )}
-          <AvatarFallback aria-hidden="true">{initials}</AvatarFallback>
-        </Avatar>
+        
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <p className="truncate text-sm font-medium">{c.name}</p>
-            {c.pinned && (
-              <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">
-                Pinned
-              </Badge>
-            )}
-            {c.type === "group" && (
-              <Badge variant="outline" className="h-5 px-1.5 text-[10px]">
-                Group
-              </Badge>
-            )}
+            
+            
           </div>
           <p className="truncate text-xs text-muted-foreground">{c.lastMessage || "No messages yet"}</p>
         </div>
-        {c.unreadCount ? (
+        {/* {c.unreadCount ? (
           <span className="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-medium text-primary-foreground">
             {c.unreadCount}
           </span>
-        ) : null}
+        ) : null} */}
       </div>
     </button>
   )
