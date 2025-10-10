@@ -51,13 +51,6 @@ const conversationsSeed: Record<string, Conversation> = {
       { id: "u_6", name: "Chris Evans" },
     ],
   },
-  u_5: {
-    id: "u_5",
-    name: "Maya Patel",
-    type: "person",
-    lastMessage: "Can you review the doc by EOD?",
-    unreadCount: 1,
-  },
 }
 
 export async function GET(request: Request) {
